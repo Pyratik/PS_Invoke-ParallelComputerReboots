@@ -1,0 +1,7 @@
+#TYPE DHCPClient
+"Host","IPAddress","MACAddress","Broadcast","Server"
+"TestDesktop01.local.domain.com","10.0.0.100","00-11-22-33-44-55","",""
+"TestDesktop02.local.domain.com","10.0.0.101","00-11-22-33-44-55","255.255.255.255","DomainController.local.domain.com"
+"TestDesktop03.local.domain.com","10.0.0.102","00-11-22-33-44-55","255.255.255.255","DomainController.local.domain.com"
+"TestServer01.local.domain.com","10.0.0.10","aa-bb-cc-dd-ee-ff","255.255.255.255","DomainController.local.domain.com"
+"TestServer02.local.domain.com","10.0.0.11","aa-bb-cc-dd-ee-ff","",""
