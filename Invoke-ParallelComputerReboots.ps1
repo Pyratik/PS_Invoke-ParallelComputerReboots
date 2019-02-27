@@ -16,10 +16,7 @@
     Version: 4.0.0
     Author Date: 2-24-2017
 
-    Run the following code as administrator to update DHCP_Clients.csv for hostname to MAC address resolution.  
-    Import-Module C:\Scripts\Dependencies\Get-DHCPClient.ps1
-    Get-DHCPClient -Server DHCP-Server.local.domain.com -Scope 10.0.0.0 -Broadcast 255.255.255.255 | Export-Csv -path C:\Scripts\Dependencies\DHCP_Clients.csv
-    **Note that both Get-DHCPClient and Invoke-WakeClient needs to be run as admin on Server 2012 R2 in my testing.**
+    Invoke-WakeClient needs to be run with administrative permissions on Server 2012 R2 in my testing.
 
     Inspired from "Restart computers in batches as jobs" (https://gallery.technet.microsoft.com/scriptcenter/Restart-computers-in-a122b3cc) by Bigteddy
     WOL functionality added from "DHCP Wake on Lan Tool for Powershell v4" (https://gallery.technet.microsoft.com/scriptcenter/Wake-on-Lan-for-DHCP-tool-3c2d8adf) by Jacob Sommerville
@@ -32,7 +29,13 @@
 #>
 
 <#  Declare variables #>
-# list of computers to be rebooted
+<# Run the following code as administrator to update DHCP_Clients.csv for hostname to MAC address resolution.  
+$DHCPScopeName = '10.0.0.0'
+Get-DhcpServerv4Lease -ScopeId $DHCPScopeName | 
+    Select-Object -Property @{ name = 'Host'       ; expression = { $_.'HostName' } } , 
+                            @{ name = 'MACAddress' ; expression = { $_.'ClientID' } } | 
+        Export-Csv -Path 'C:\Scripts\Dependencies\DHCP_Clients.csv' -NoTypeInformation
+#>
 $computersToReboot    = Get-Content -Path 'C:\Scripts\Dependencies\Computers-To-Reboot.txt' | Sort-Object
 $computerMacAddresses = Import-Csv -Path 'C:\Scripts\Dependencies\DHCP_Clients.csv'
 $logFilePath          = 'C:\Scripts\restarts.log'
